@@ -5,34 +5,38 @@ use App\Middleware\AdminGuestMiddleware;
 use App\Middleware\RouteNameMiddleware;
 
 // Routes
+function crud($base, $controller, $name, &$app) {
+  $app->group($base, function() use($app, $controller, $name) {
+	$app->get('', $controller . ':index')->setName($name);
+	$app->get('/create', $controller . ':getCreate')->setName($name . '.create');
+	$app->get('/{id}/update', $controller . ':getUpdate');
+	$app->get('/{id}/delete', $controller . ':getDelete');
+  })->add(new RouteNameMiddleware($app->getContainer()));
 
+  $app->group($base, function() use($app, $controller) {
+	$app->post('/create', $controller . ':postCreate');
+	$app->post('/{id}/update', $controller . ':postUpdate');
+  });
+}
 
 $app->group('/admin', function () use ($app, $container) {
   $app->group('', function() use($app) {
-	$app->get('/login', 'Admin\AuthController:getLogin')->setName('admin.login');
-	$app->post('/login', 'Admin\AuthController:postLogin');
+	$app->get('/login', 'Admin\\AuthController:getLogin')->setName('admin.login');
+	$app->post('/login', 'Admin\\AuthController:postLogin');
   })->add(new AdminGuestMiddleware($container));
 
+
   $app->group('', function() use($app, $container) {
-	$app->get('/', 'Admin\MainController:index')->setName('admin.main');
-	$app->get('/logout', 'Admin\AuthController:getLogout')->setName('admin.logout');
+	$app->get('/', 'Admin\\MainController:index')->setName('admin.main');
+	$app->get('/logout', 'Admin\\AuthController:getLogout')->setName('admin.logout');
 
-	$app->group('/users', function() use($app) {
-	  $app->get('', 'Admin\UserController:index')->setName('admin.users');
-	  $app->get('/create', 'Admin\UserController:getCreate')->setName('admin.users.create');
-	  $app->get('/{id}/update', 'Admin\UserController:getUpdate');
-	  $app->get('/{id}/delete', 'Admin\UserController:getDelete');
-	})->add(new RouteNameMiddleware($container));
-
-	$app->group('/users', function() use($app) {
-	  $app->post('/create', 'Admin\UserController:postCreate');
-	  $app->post('/{id}/update', 'Admin\UserController:postUpdate');
-	});
+	crud('/users', 'Admin\\UserController', 'admin.users', $app);
+	crud('/roles', 'Admin\\RoleController', 'admin.roles', $app);
 
   })->add(new AdminAuthMiddleware($container));
 });
 
 
 $app->get('/', function() use ($app) {
-  print_r(App\Models\User::find(1)->email);
+  print 'Admin\RoleController';
 });

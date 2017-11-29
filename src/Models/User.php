@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
 
-  protected $table = 'users';
-  protected $fillable = ['name','login', 'email', 'password'];
+  protected $table	 = 'users';
+  protected $fillable	 = ['name', 'login', 'email', 'password', 'role_id'];
+
+  public function role() {
+	return $this->belongsTo('App\\Models\\Role');
+  }
 
 }

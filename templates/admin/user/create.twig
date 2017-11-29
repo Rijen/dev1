@@ -15,7 +15,7 @@
 	<div class="form-group {{errors.login?'has-error':''}}">
 	  <label for="inputLogin"  class="control-label col-xs-2">Логин</label>
 	  <div class="col-xs-10">
-		<input name="login" id="inputLogin" class="form-control" value="{{old.login}}" placeholder="Логин"  autofocus>
+		<input name="login" id="inputLogin" class="form-control" value="{{old.login}}" placeholder="Логин" >
 		{% if errors.login %}
 		  <span class="help-block">{{errors.login|first}}</span>
 		{% endif %}
@@ -24,7 +24,7 @@
 	<div class="form-group {{errors.email?'has-error':''}}">
 	  <label for="inputEmail" class="control-label col-xs-2">E-mail</label>
 	  <div class="col-xs-10">
-		<input name="email" type="email" id="inputEmail" class="form-control" value="{{old.email}}" placeholder="E-mail"  autofocus>
+		<input name="email" type="email" id="inputEmail" class="form-control" value="{{old.email}}" placeholder="E-mail" >
 		{% if errors.email %}
 		  <span class="help-block">{{errors.email|first}}</span>
 		{% endif %}
@@ -34,9 +34,22 @@
 	<div class="form-group {{errors.password?'has-error':''}}">
 	  <label for="inputPassword"  class="control-label col-xs-2">Пароль</label>
 	  <div class="col-xs-10">
-		<input name="password" id="inputPassword" class="form-control" value="{{old.password}}" placeholder="Пароль"  autofocus>
+		<input name="password" id="inputPassword" class="form-control" value="{{old.password}}" placeholder="Пароль" >
 		{% if errors.password %}
 		  <span class="help-block">{{errors.password|first}}</span>
+		{% endif %}
+	  </div>
+	</div>
+	<div class="form-group {{errors.role?'has-error':''}}">
+	  <label for="inputRole"  class="control-label col-xs-2">Роль</label>
+	  <div class="col-xs-10">
+		<select name="role_id" id="inputRole" class="form-control">
+		  {% for role in roles %}
+			<option value="{{role.id}}" {% if old.role_id == role.id %}selected{%endif%}> {{role.name}}</option>
+		  {% endfor %}
+		</select>
+		{% if errors.password %}
+		  <span class="help-block">{{errors.role|first}}</span>
 		{% endif %}
 	  </div>
 	</div>

@@ -7,6 +7,7 @@
 	  <tr>
 		<th>Имя</th>
 		<th>Логин</th>
+		<th>Роль</th>
 		<th></th>
 	  </tr>
 	</thead>
@@ -16,6 +17,7 @@
 		<tr>
 		  <td>{{user.name}}</td>
 		  <td>{{user.login}}</td>
+		  <td>{{user.role.name}}</td>
 		  <td style="width: 160px;">
 			<div class="btn-group" role="group" aria-label="...">
 			  <a class="btn btn-default btn-sm" href="/admin/users/{{user.id}}/update">Изменить</a>

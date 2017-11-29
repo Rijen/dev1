@@ -12,7 +12,7 @@
 		{% endif %}
 	  </div>
 	</div>
-	
+
 	<div class="form-group {{errors.email?'has-error':''}}">
 	  <label for="inputEmail" class="control-label col-xs-2">E-mail</label>
 	  <div class="col-xs-10">
@@ -29,6 +29,20 @@
 		<input name="password" id="inputPassword" class="form-control" value="" placehuserer="Пароль"  autofocus>
 		{% if errors.password %}
 		  <span class="help-block">{{errors.password|first}}</span>
+		{% endif %}
+	  </div>
+	</div>
+
+	<div class="form-group {{errors.role?'has-error':''}}">
+	  <label for="inputRole"  class="control-label col-xs-2">Роль</label>
+	  <div class="col-xs-10">
+		<select name="role_id" id="inputRole" class="form-control">
+		  {% for role in roles %}
+			<option value="{{role.id}}" {% if user.role_id == role.id %}selected{%endif%}> {{role.name}}</option>
+		  {% endfor %}
+		</select>
+		{% if errors.password %}
+		  <span class="help-block">{{errors.role|first}}</span>
 		{% endif %}
 	  </div>
 	</div>

@@ -46,12 +46,21 @@ $container['csrf'] = function($c) {
   return new \Slim\Csrf\Guard();
 };
 
-$container['Admin\MainController'] = function($c) {
-  return new \App\Controllers\Admin\MainController($c);
-};
-$container['Admin\AuthController'] = function($c) {
-  return new \App\Controllers\Admin\AuthController($c);
-};
-$container['Admin\UserController'] = function($c) {
-  return new \App\Controllers\Admin\UserController($c);
-};
+function register_controllers($list, &$container) {
+  foreach ($list as $name) {
+	$container[$name] = function($c)use($name) {
+	  $full_name = 'App\\Controllers\\' . $name;
+	  return new $full_name($c);
+	};
+  }
+}
+
+$register_controllers = [
+	'Admin\\MainController',
+	'Admin\\AuthController',
+	'Admin\\UserController',
+	'Admin\\RoleController',
+];
+
+register_controllers($register_controllers, $container);
+
