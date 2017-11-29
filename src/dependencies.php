@@ -19,8 +19,8 @@ $container['view'] = function ($c) {
   $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
   $view->getEnvironment()->addGlobal('adminAuth', [
-	  'check' => $c->adminAuth->check(),
-	  'user' => $c->adminAuth->user(),
+	  'check'	 => $c->adminAuth->check(),
+	  'user'	 => $c->adminAuth->user(),
   ]);
   $view->getEnvironment()->addGlobal('flash', $c->flash);
 
@@ -46,4 +46,12 @@ $container['csrf'] = function($c) {
   return new \Slim\Csrf\Guard();
 };
 
-
+$container['Admin\MainController'] = function($c) {
+  return new \App\Controllers\Admin\MainController($c);
+};
+$container['Admin\AuthController'] = function($c) {
+  return new \App\Controllers\Admin\AuthController($c);
+};
+$container['Admin\UserController'] = function($c) {
+  return new \App\Controllers\Admin\UserController($c);
+};

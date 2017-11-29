@@ -1,0 +1,36 @@
+{%extends "admin/layout.twig"%}
+{% block head %}
+  {{ parent() }}
+  <link rel="stylesheet" href="/static/admin/css/main.css" />
+{% endblock %}
+
+{% block content %}
+  {% include 'admin/partial/top_menu.twig' %}
+
+  <div class="container">
+	{% include 'admin/partial/flash.twig' %}
+	<div class="row">
+	  <div class="col-xs-10">
+		<div class=" panel panel-default">
+		  <div class="panel-heading">
+			<h3 class="panel-title">{% block title %}{% endblock %}</h3>
+		  </div>
+		  <div class="panel-body">
+		  {% block wrapper %}{% endblock %}
+		</div>
+	  </div>
+	</div>
+
+	<div class="col-xs-2">
+	  <div class=" panel panel-default">
+		<div class="panel-body">
+		{% block sidebar %}{% endblock %}
+	  </div>
+	</div>
+  </div>
+
+
+
+</div>{#.row#}
+</div>{#.container#}
+{% endblock %}

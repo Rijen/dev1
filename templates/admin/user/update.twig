@@ -1,0 +1,40 @@
+{%extends "admin/main.twig"%}
+{% block title %}Изменение пользователя {{user.login}}{% endblock %}
+{% block wrapper %}
+  {#route.name - форма ведет на эту же страницу, но методом post#}
+  <form method="post" action="/admin/users/{{user.id}}/update" class="form-horizontal">
+	<div class="form-group {{errors.name?'has-error':''}}">
+	  <label for="inputName" class="control-label col-xs-2">Имя</label>
+	  <div class="col-xs-10">
+		<input name="name" id="inputLogin" class="form-control" value="{{user.name}}" placehuserer="Имя"  autofocus>
+		{% if errors.name %}
+		  <span class="help-block">{{errors.name|first}}</span>
+		{% endif %}
+	  </div>
+	</div>
+	
+	<div class="form-group {{errors.email?'has-error':''}}">
+	  <label for="inputEmail" class="control-label col-xs-2">E-mail</label>
+	  <div class="col-xs-10">
+		<input name="email" type="email" id="inputEmail" class="form-control" value="{{user.email}}" placehuserer="E-mail"  autofocus>
+		{% if errors.email %}
+		  <span class="help-block">{{errors.email|first}}</span>
+		{% endif %}
+	  </div>
+	</div>
+
+	<div class="form-group {{errors.password?'has-error':''}}">
+	  <label for="inputPassword"  class="control-label col-xs-2">Пароль</label>
+	  <div class="col-xs-10">
+		<input name="password" id="inputPassword" class="form-control" value="" placehuserer="Пароль"  autofocus>
+		{% if errors.password %}
+		  <span class="help-block">{{errors.password|first}}</span>
+		{% endif %}
+	  </div>
+	</div>
+	{{csrf.field|raw}}
+	<button class="btn btn-primary " type="submit">Сохранить</button>
+  </form>
+
+{% endblock %}
+

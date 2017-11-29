@@ -1,0 +1,9 @@
+{%extends "admin/main.twig"%}
+
+{% block wrapper %}
+  Hi. (admin/main.twig)
+
+  {% if adminAuth.check %}
+	{{adminAuth.user.name}}
+  {% endif %}
+{% endblock %}
