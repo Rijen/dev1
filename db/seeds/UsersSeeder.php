@@ -3,20 +3,19 @@
 use App\Database\Seed;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Privilige;
 
 class UsersSeeder extends Seed {
 
-  /**
-   * Run Method.
-   *
-   * Write your database seeder using this method.
-   *
-   * More information on writing seeders is available here:
-   * http://docs.phinx.org/en/latest/seeding.html
-   */
   public function run() {
 	Role::create(['name' => 'Administrator']);
 	Role::create(['name' => 'User']);
+
+	Privilige::create(['id' => 1, 'name' => 'Admin interface']);
+	Privilige::create(['id' => 2, 'name' => 'User interface']);
+
+	Role::find(1)->priviliges()->attach([1, 2]);
+	Role::find(2)->priviliges()->attach(2);
 
 	User::create([
 		'name'		 => 'Administrator',

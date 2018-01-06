@@ -13,4 +13,8 @@ class User extends Model {
 	return $this->belongsTo('App\\Models\\Role');
   }
 
+  public function priviliges() {
+	return $this->hasManyThrough('App\\Models\\Privilige', 'App\\Models\\Role');
+  }
+
 }

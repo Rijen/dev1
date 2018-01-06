@@ -11,7 +11,4 @@ class MainController extends Controller {
 	$this->view->render($response, 'admin/index.twig');
   }
 
-  public function test() {
-	print '11133';
-  }
 }

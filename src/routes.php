@@ -9,7 +9,7 @@ function crud($base, $controller, $name, &$app) {
   $app->group($base, function() use($app, $controller, $name) {
 	$app->get('', $controller . ':index')->setName($name);
 	$app->get('/create', $controller . ':getCreate')->setName($name . '.create');
-	$app->get('/{id}/update', $controller . ':getUpdate');
+	$app->get('/{id}/update', $controller . ':getUpdate')->setName($name . '.update');
 	$app->get('/{id}/delete', $controller . ':getDelete');
   })->add(new RouteNameMiddleware($app->getContainer()));
 
@@ -26,8 +26,8 @@ $app->group('/admin', function () use ($app, $container) {
   })->add(new AdminGuestMiddleware($container));
 
 
-  $app->group('', function() use($app, $container) {
-	$app->get('/', 'Admin\\MainController:index')->setName('admin.main');
+  $app->group('', function() use($app) {
+	$app->get('', 'Admin\\MainController:index')->setName('admin.main');
 	$app->get('/logout', 'Admin\\AuthController:getLogout')->setName('admin.logout');
 
 	crud('/users', 'Admin\\UserController', 'admin.users', $app);
@@ -38,5 +38,6 @@ $app->group('/admin', function () use ($app, $container) {
 
 
 $app->get('/', function() use ($app) {
-  print 'Admin\RoleController';
+  print '<pre>';
+  print_r(App\Models\User::find(1)->role->priviliges->contains(2));
 });

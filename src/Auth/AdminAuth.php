@@ -17,7 +17,8 @@ class AdminAuth {
 	if (!$user)
 	  return false;
 
-	if (password_verify($password, $user->password)) {
+	if (password_verify($password, $user->password) 
+			&& $user->role->priviliges->contains(1)) {
 	  $_SESSION['admin_user'] = $user->id;
 	  return true;
 	}

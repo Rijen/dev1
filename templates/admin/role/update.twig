@@ -1,0 +1,26 @@
+{%extends "admin/main.twig"%}
+{% block title %}Изменение роли {{role.name}}{% endblock %}
+{% block wrapper %}
+  {#route.name - форма ведет на эту же страницу, но методом post#}
+  <form method="post" action="/admin/roles/{{role.id}}/update" class="form-horizontal">
+	<table class="table table-condensed table-striped">
+	  {% for privilige in priviliges %}
+		<tr>
+		  <td width='80' style='text-align: center;'>
+			<input type='checkbox' name='privilige_{{privilige.id}}' id='privilige_{{privilige.id}}' 
+				   {% if role.priviliges.contains(privilige.id) %}
+					 checked
+				   {% endif %}
+				   />
+		  </td>
+		  <td><label for='privilige_{{privilige.id}}'>{{privilige.name}}</label></td>
+		</tr>
+	  {% endfor %}
+	</table>
+
+	{{csrf.field|raw}}
+	<button class="btn btn-primary " type="submit">Сохранить</button>
+  </form>
+
+{% endblock %}
+

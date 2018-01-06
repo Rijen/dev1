@@ -13,4 +13,8 @@ class Role extends Model {
 	return $this->hasMany('App\\Models\\User');
   }
 
+  public function priviliges() {
+	return $this->belongsToMany('App\\Models\\Privilige','role_priviliges');
+  }
+
 }

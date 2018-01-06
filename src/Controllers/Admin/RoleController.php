@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Privilige;
 use Respect\Validation\Validator as v;
 
 class RoleController extends Controller {
@@ -39,12 +40,49 @@ class RoleController extends Controller {
 	$role	 = Role::find($id);
 	if ($role) {
 	  $user_count = $role->users()->count();
-	  if ($user_count == 1) {
+	  if ($user_count > 0) {
 		$this->flash->addMessage('error', 'Вы не можете удалить используемую роль');
 	  } else {
+		$role->priviliges()->sync([]);
 		$role->delete();
 		$this->flash->addMessage('info', 'Роль ' . $role->name . ' удалена');
 	  }
+	  return $response->withRedirect($this->router->pathFor('admin.roles'));
+	}
+
+	$status = 404;
+	return $response->withStatus($status);
+  }
+
+  public function getUpdate($request, $response, $args) {
+
+	$id			 = $args['id'];
+	$role		 = Role::find($id);
+	$priviliges	 = Privilige::all();
+	if ($role) {
+	  return $this->view->render($response, 'admin/role/update.twig', ['role' => $role, 'priviliges' => $priviliges]);
+	}
+
+	$status = 404;
+	return $response->withStatus($status);
+  }
+
+  public function postUpdate($request, $response, $args) {
+	$id		 = $args['id'];
+	$role	 = Role::find($id);
+	if ($role) {
+	  $params	 = $request->getParams();
+	  $ids	 = [];
+	  foreach ($params as $k => $v) {
+		preg_match('/^privilige_([0-9]+)$/u', $k, $r);
+		if (!empty($r) && isset($r[1]) && is_numeric($r[1])) {
+		  $ids[] = $r[1];
+		}
+	  }
+
+	  $role->priviliges()->sync($ids);
+
+	  $this->flash->addMessage('info', 'Роль ' . $role->name . ' изменена');
 	  return $response->withRedirect($this->router->pathFor('admin.roles'));
 	}
 
