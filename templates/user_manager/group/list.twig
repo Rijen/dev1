@@ -17,13 +17,13 @@
 		<tbody>
 
 			{%for group in groups%}
-				<tr>
+				<tr data-id="{{group.id}}">
 					<td>{{group.name}}</td>
 					<td>{{group.descr}}</td>
 					<td>{{group.users.count}}</td>
 					<td class="table-controls">
 						<a href="{{path_for('user_manager.group.update',{'id':group.id})}}" class="btn btn-primary btn-xs" >{{lang.btn.update}}</a>
-						<a href="javascript:void(0)" class="btn btn-danger btn-xs cmdDeleteUser" data-id="{{group.id}}">{{lang.btn.delete}}</a>
+						<a href="javascript:void(0)" class="btn btn-danger btn-xs cmdDeleteGroup" data-id="{{group.id}}">{{lang.btn.delete}}</a>
 					</td>
 
 				</tr>
@@ -32,4 +32,31 @@
 		</tbody>
 	</table>  
 
+	<script>
+		$('.cmdDeleteGroup').click(function () {
+			if (confirm('{{lang.group.del.confirm}}')) {
+				var id = $(this).data('id');
+				$.ajax({
+					url: '{{path_for('user_manager.group.delete')}}',
+					cache: false,
+					type: "GET",
+					data: {
+						id: id,
+					},
+					dataType: 'json',
+					success: function (d) {
+						if (!d.err) {
+							$('tr[data-id=' + id + ']').remove();
+							toastr['success'](d.msg)
+						} else {
+							toastr['warning'](d.msg)
+						}
+					},
+					error: function () {
+						alert("Error");
+					}
+				});
+			}
+		});
+	</script>
 {% endblock %}

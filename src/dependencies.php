@@ -73,10 +73,11 @@ function register_controllers($list, &$container)
 
 $register_controllers = [
 	'MainController',
-	'Users\\AuthController',
+	'AuthController',
 	'Users\\RoleController',
 	'UserManager\\UserController',
 	'UserManager\\GroupController',
+	'UserManager\\ComponentController',
 ];
 
 register_controllers($register_controllers, $container);

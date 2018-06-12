@@ -1,0 +1,25 @@
+{%extends "user_manager/main.twig"%}
+{%set title = lang.group.list%}
+
+{% block wrapper %}
+
+
+	<ul>
+		{%for component in components%}
+			<li>{{component.name}}</li>
+			<ul>
+				{%for role in component.roles%}
+					<li><b>{{role.name}}</b> {{lang.component.members}}: {{ role.users.count()}} </li>
+							{#<ul>
+								{%for user in role.users%}
+									<li>{{user.initials()}}</li>
+								{%endfor%}
+							</ul>#}
+						{%endfor%}
+			</ul>
+		{%endfor%}
+	</ul>
+</table>  
+
+
+{% endblock %}

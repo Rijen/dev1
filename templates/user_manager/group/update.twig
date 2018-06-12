@@ -19,7 +19,7 @@
 						<div class="form-group {{errors.name?'has-error':''}}">
 							<label for="inputName" class="control-label col-xs-2">{{lang.group.name}}</label>
 							<div class="col-xs-10">
-								<input name="name" id="inputLogin" class="form-control" value="{{group.name}}" placeholder="{{lang.group.name}}"  autofocus>
+								<input name="name" readonly id="inputLogin" class="form-control" value="{{group.name}}" placeholder="{{lang.group.name}}"  autofocus>
 								{% if errors.name %}
 									<span class="help-block">{{errors.name|first}}</span>
 								{% endif %}
@@ -41,34 +41,38 @@
 							<label class="col-sm-3 control-label">{{lang.group.members}}</label>
 							<div class="col-sm-9">
 
-								<div id="container" class="jstree jstree-1 jstree-default">
-									<ul>
-										<li>All users
-											<ul>
-												<li>Child node 1</li>
-												<li>Child node 2</li>
-											</ul>
-										</li>
-									</ul>
+								<div id="tree" class="jstree jstree-1 jstree-default">
+
 								</div>
 
-								<script>
-									$(function () {
-										$('#container').jstree({
-											"plugins": ["checkbox"]
-										});
-									});
-								</script>
+
 
 							</div>
 						</div>
-
+						<input type="hidden" name="members"/>
 						{{csrf.field|raw}}
-						<button class="btn btn-primary " type="submit">{{lang.btn.save}}</button>
+						<button class="btn btn-primary " type="submit" 
+								onclick="$('input[name=members]').val(JSON.stringify($('#tree').jstree(true).get_json()[0].children))">{{lang.btn.save}}</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(function () {
+			$("#tree").jstree({
+				'core': {
+					'data': {
+						'url': '/user_manager/group/{{group.id}}/members'
+					}
+				},
+				"checkbox": {
+					"keep_selected_style": false
+				},
+				"plugins": ["checkbox"]
+			});
+
+		});
+	</script>
 {% endblock %}
 

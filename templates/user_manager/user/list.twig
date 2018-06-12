@@ -44,7 +44,7 @@
 {% block scripts %}
 	<script>
 		$('.cmdDeleteUser').click(function () {
-			if (confirm('{{lang.user.del_confirm}}')) {
+			if (confirm('{{lang.user.del.confirm}}')) {
 				var id = $(this).data('id');
 				$.ajax({
 					url: '{{path_for('user_manager.user.delete')}}',

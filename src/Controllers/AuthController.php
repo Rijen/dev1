@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Users;
+namespace App\Controllers;
 
 use App\Controllers\Controller,
 	Respect\Validation\Validator as v;

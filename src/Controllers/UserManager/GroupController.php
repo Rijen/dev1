@@ -4,6 +4,7 @@ namespace App\Controllers\UserManager;
 
 use App\Controllers\Controller;
 use App\Models\Group;
+use App\Models\User;
 use Respect\Validation\Validator as v;
 
 class GroupController extends Controller
@@ -42,63 +43,100 @@ class GroupController extends Controller
 	public function getDelete($request, $response, $args)
 	{
 
-		$id		 = $args['id'];
-		$role	 = Role::find($id);
-		if ($role)
+		$id		 = $request->getParam('id');
+		$group	 = Group::find($id);
+		if ($group)
 		{
-			$user_count = $role->users()->count();
+			$user_count = $group->users()->count();
 			if ($user_count > 0)
 			{
-				$this->flash->addMessage('error', 'Вы не можете удалить используемую роль');
+				return $response->withStatus(200)
+								->withJson(['err' => true, 'msg' => $this->lang['group']['del']['m1']]);
 			}
 			else
 			{
-				$role->priviliges()->sync([]);
-				$role->delete();
-				$this->flash->addMessage('info', 'Роль ' . $role->name . ' удалена');
+				$group->users()->sync([]);
+				$group->delete();
+				return $response->withStatus(200)
+								->withJson(['err' => false, 'msg' => $this->lang['group']['del']['m2']]);
 			}
-			return $response->withRedirect($this->router->pathFor('roles'));
 		}
 
-		$status = 404;
-		return $response->withStatus($status);
+		return $response->withStatus(200)
+						->withJson(['err' => true, 'msg' => $this->lang['group']['del']['m3']]);
 	}
 
 	public function getUpdate($request, $response, $args)
 	{
 
-		$id			 = $args['id'];
-		$group		 = Group::find($id);
+		$id		 = $args['id'];
+		$group	 = Group::find($id);
+
+
 		if ($group)
 		{
-			return $this->view->render($response, 'user_manager/group/update.twig', ['group' => $group]);
+			return $this->view->render($response, 'user_manager/group/update.twig', [
+						'group' => $group,
+			]);
 		}
 
 		$status = 404;
 		return $response->withStatus($status);
 	}
 
+	public function getMembers($request, $response, $args)
+	{
+
+		$id = $args['id'];
+
+		$group	 = Group::find($id);
+		$users	 = User::all();
+		$ans	 = [];
+		if ($group)
+		{
+			$ans = [
+				'a_attr' => ['data-group' => $id],
+				'state'	 => ['opened' => true],
+				'text'	 => $this->lang['user']['all'],
+				'id'	 => 0,
+				'icon'=>'fas fa-users'
+			];
+			foreach ($users as $user)
+			{
+				$ans['children'][] = [
+					'id'	 => $user->id,
+					'text'	 => $user->name . ' ' . $user->family,
+					'state'	 => ['selected' => $user->groups->contains($id)],
+					'icon'=>'fas fa-user'
+				];
+			}
+		}
+
+		return $response->withStatus(200)
+						->withJson($ans);
+	}
+
 	public function postUpdate($request, $response, $args)
 	{
 		$id		 = $args['id'];
-		$role	 = Role::find($id);
-		if ($role)
+		$group	 = Group::find($id);
+		if ($group)
 		{
-			$params	 = $request->getParams();
-			$ids	 = [];
-			foreach ($params as $k => $v)
+			$members = json_decode($request->getParam('members'));
+
+			$sync = [];
+			foreach ($members as $member)
 			{
-				preg_match('/^privilige_([0-9]+)$/u', $k, $r);
-				if (!empty($r) && isset($r[1]) && is_numeric($r[1]))
+				if ($member->state->selected)
 				{
-					$ids[] = $r[1];
+					$sync[] = $member->id;
 				}
 			}
-
-			$role->priviliges()->sync($ids);
-
-			$this->flash->addMessage('info', 'Роль ' . $role->name . ' изменена');
-			return $response->withRedirect($this->router->pathFor('roles'));
+			$group->users()->sync($sync);
+			$group->descr = $request->getParam('descr');
+			$group->save();
+			$this->flash->addMessage('info', 'Роль ' . $group->name . ' изменена');
+			return $response->withRedirect($this->router->pathFor('user_manager.group'));
 		}
 
 		$status = 404;

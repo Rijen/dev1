@@ -6,6 +6,7 @@ use App\Controllers\Controller;
 use App\Models\User;
 use App\Models\Filial;
 use App\Models\Group;
+use App\Models\Component;
 use Respect\Validation\Validator as v;
 
 class UserController extends Controller
@@ -108,10 +109,41 @@ class UserController extends Controller
 				{
 					$user->password = password_hash($request->getParam('password'), PASSWORD_DEFAULT);
 				}
+
+				$groups = json_decode($request->getParam('groups'));
+
+
+				$sync = [];
+				foreach ($groups as $group)
+				{
+					if ($group->state->selected)
+					{
+						$sync[] = $group->id;
+					}
+				}
+				$user->groups()->sync($sync);
+
+				$components = json_decode($request->getParam('components'));
+//				print '<pre>';
+
+				$sync_roles = [];
+				foreach ($components as $component)
+				{
+
+					foreach ($component->children as $roles)
+					{
+				
+						if ($roles->state->selected)
+						{
+							$sync_roles[] = $roles->data->id;
+						}
+					}
+				}
+				$user->roles()->sync($sync_roles);
+
 				$user->save();
 				$this->photo_upload($request, $user);
 
-				$this->flash->addMessage('info', 'Пользователь ' . $user->login . ' изменен');
 				return $response->withRedirect($this->router->pathFor('user_manager.user'));
 			}
 
@@ -122,7 +154,7 @@ class UserController extends Controller
 		return $response->withStatus($status);
 	}
 
-	public function postDelete($request, $response)
+	public function getDelete($request, $response)
 	{
 
 		$id		 = $request->getParam('id');
@@ -154,6 +186,84 @@ class UserController extends Controller
 		{
 			print json_encode(['err' => true, 'msg' => $this->lang['user']['del']['m4']]);
 		}
+	}
+
+	public function getGroups($request, $response, $args)
+	{
+
+		$id = $args['id'];
+
+		$user	 = User::find($id);
+		$groups	 = Group::all();
+		$ans	 = [];
+		if ($user)
+		{
+			$ans = [
+				'a_attr' => ['data-group' => $id],
+				'state'	 => ['opened' => true],
+				'text'	 => $this->lang['group']['all'],
+				'id'	 => 'groups',
+				'icon'	 => false,
+			];
+			foreach ($groups as $group)
+			{
+				$ans['children'][] = [
+					'id'	 => $group->id,
+					'text'	 => $group->name . ' (' . $group->descr . ')',
+					'state'	 => ['selected' => $user->groups->contains($group->id)],
+					'icon'	 => 'fas fa-users',
+				];
+			}
+		}
+
+		return $response->withStatus(200)
+						->withJson($ans);
+	}
+
+	public function getRoles($request, $response, $args)
+	{
+
+		$id = $args['id'];
+
+		$user		 = User::find($id);
+		$components	 = Component::all();
+		$ans		 = [];
+		if ($user)
+		{
+			$ans = [
+				'a_attr'	 => ['data-group' => $id],
+				'state'		 => ['opened' => true],
+				'text'		 => $this->lang['component']['all'],
+				'id'		 => 'components',
+				'icon'		 => false,
+				'li_attr'	 => ['id' => 'j1_1']
+			];
+			foreach ($components as $pid => $component)
+			{
+				$ans['children'][$pid] = [
+					'data'	 => [
+						'id' => $component->id,
+					],
+					'icon'	 => 'fas fa-th-large',
+					'text'	 => $component->name,
+					'state'	 => ['opened' => true],
+				];
+				foreach ($component->roles as $role)
+				{
+					$ans['children'][$pid]['children'][] = [
+						'data'	 => [
+							'id' => $role->id,
+						],
+						'text'	 => $role->name,
+						'state'	 => ['selected' => $user->roles->contains($role->id)],
+						'icon'	 => 'fas fa-key',
+					];
+				}
+			}
+		}
+
+		return $response->withStatus(200)
+						->withJson($ans);
 	}
 
 	private function photo_upload($request, $user)

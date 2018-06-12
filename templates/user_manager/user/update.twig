@@ -146,10 +146,13 @@
 						<div class="form-group">
 							<div class="col-sm-9 col-sm-offset-3">
 								<a class="btn btn-white" href="{{path_for('user_manager.user')}}">{{lang.btn.close}}</a>
-								<button class="btn btn-primary" type="submit">{{lang.btn.save}}</button>
+								<button class="btn btn-primary" type="submit" onclick="pre_save_user()">{{lang.btn.save}}</button>
 							</div>
 						</div>
 						{{csrf.field|raw}}
+
+						<input type="hidden" name="groups"/>
+						<input type="hidden" name="components"/>
 					</form>
 				</div>
 			</div>
@@ -158,18 +161,30 @@
 		<div class="col-lg-5">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>Доступы пользователя</h5>
+					<h5>{{lang.user_manager.groups}}</h5>
 				</div>
 				<div class="ibox-content">
 					<div class="form-horizontal">
 						<div class="row">
 							<div class="col-xs-12">
-							{% for group in groups %}
-								<div>
-									<label> <input type="checkbox" value="{{group.id}}"
-												   {{user.groups.contains(group.id)?'checked':''}}> {{group.name}} </label>
-								</div>
-							{% endfor %}
+								<div id="tree_groups"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-5">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>{{lang.user_manager.components}}</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="form-horizontal">
+						<div class="row">
+							<div class="col-xs-12">
+								<div id="tree_roles"></div>
 							</div>
 						</div>
 					</div>
@@ -233,5 +248,42 @@
 			</div>
 		</div>			
 	</div>
+	<script>
+		$(function () {
+			$("#tree_groups").jstree({
+				'core': {
+					'data': {
+						'url': '/user_manager/user/{{user.id}}/groups'
+					}
+				},
+				"checkbox": {
+					"keep_selected_style": false
+				},
+				"plugins": ["checkbox"]
+			});
+
+		});
+		$(function () {
+			$("#tree_roles").jstree({
+				'core': {
+					'data': {
+						'url': '/user_manager/user/{{user.id}}/roles'
+					}
+				},
+				"checkbox": {
+					"real_checkboxes": false,
+					"keep_selected_style": false
+				},
+				"plugins": ["checkbox"]
+
+			});
+
+		});
+
+		function pre_save_user() {
+			$('input[name=groups]').val(JSON.stringify($('#groups').jstree(true).get_json()[0].children))
+			$('input[name=components]').val(JSON.stringify($('#components').jstree(true).get_json()[0].children))
+		}
+	</script>
 {% endblock %}
 

@@ -19,6 +19,11 @@ class User extends Model
 //		return $this->hasManyThrough('App\\Models\\Privilige', 'App\\Models\\Role');
 //	}
 
+	public function initials()
+	{
+		return $this->family . ' ' . mb_substr($this->name, 0, 1) . '. ' . mb_substr($this->surname, 0, 1) . '. ';
+	}
+
 	public function photo()
 	{
 
@@ -45,6 +50,11 @@ class User extends Model
 	public function groups()
 	{
 		return $this->belongsToMany('App\\Models\\Group', 'user_groups');
+	}
+
+	public function roles()
+	{
+		return $this->belongsToMany('App\\Models\\Role', 'user_roles');
 	}
 
 }

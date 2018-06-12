@@ -27,7 +27,8 @@
 							<ul class="nav nav-tabs">
 								<li {{route.name=='user_manager.user'?'class="active"':''}}><a href="{{path_for('user_manager.user')}}">{{lang.user_manager.users}}</a></li>
 								<li {{route.name=='user_manager.group'?'class="active"':''}}><a href="{{path_for('user_manager.group')}}">{{lang.user_manager.groups}}</a></li>           
-								<li><a data-target="#components" data-toggle="tab" id="Components">{{lang.user_manager.components}}</a></li>        
+								<li {{route.name=='user_manager.component'?'class="active"':''}}><a href="{{path_for('user_manager.component')}}">{{lang.user_manager.components}}</a></li>           
+    
 								<li><a data-target="#logs" data-toggle="tab" id="Logs">{{lang.user_manager.log}}</a></li>         </ul>
 
 							<div class="tab-content">
