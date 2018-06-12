@@ -8,7 +8,7 @@ class MainController extends Controller {
 
   public function index($request, $response) {
 
-	$this->view->render($response, 'admin/index.twig');
+	$this->view->render($response, 'index.twig');
   }
 
 }

@@ -1,4 +1,4 @@
-{% extends "admin/layout.twig" %}
+{% extends "layout.twig" %}
 
 {% block title %}Login{% endblock %}
 
@@ -16,7 +16,7 @@
 				<h3 class="panel-title">{{lang.login.title}}</h3>
 			</div>
 			<div class="panel-body">
-				{% include 'admin/partial/flash.twig' %}
+				{% include 'partial/flash.twig' %}
 				<form method="post" action="{{ path_for('login') }}">
 
 					<div class="form-group {{errors.login?'has-error':''}}">

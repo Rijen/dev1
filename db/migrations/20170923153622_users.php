@@ -20,7 +20,7 @@ class Users extends Migration
 			$table->string('short');
 
 			$table->integer('filial_id')->unsigned()->index('filial_id');
-			$table->integer('group_id')->unsigned()->index('group_id');
+			$table->integer('group_id')->unsigned()->index('group_id')->nullable();
 			$table->string('work_phone');
 			$table->string('home_phone');
 			// Required for Eloquent's created_at and updated_at columns 

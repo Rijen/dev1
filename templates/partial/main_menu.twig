@@ -3,6 +3,9 @@
 		<ul class="nav metismenu" id="side-menu">
 			<li class="nav-header">
 				<div class="dropdown profile-element">
+					<span>
+						<img alt="image" class="img-circle" src="{{Auth.user.photo()}}">
+                    </span>
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{Auth.user.name}}</strong>
 							</span> <span class="text-muted text-xs block">{{Auth.user.group.name}}</span> </span> </a>
@@ -14,7 +17,7 @@
 			</li>
 			<li class="active">
 				<a href="{{path_for('user_manager.user')}}"><i class="fas fa-users-cog"></i> <span class="nav-label">{{lang.menu.m1}}</span></a>
-			
+
 			</li>
 			<li>
 				<a href="/"><i class="fas fa-boxes"></i> <span class="nav-label">{{lang.menu.m2}}</span></a>

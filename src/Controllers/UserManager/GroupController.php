@@ -68,11 +68,10 @@ class GroupController extends Controller
 	{
 
 		$id			 = $args['id'];
-		$role		 = Role::find($id);
-		$priviliges	 = Privilige::all();
-		if ($role)
+		$group		 = Group::find($id);
+		if ($group)
 		{
-			return $this->view->render($response, 'admin/role/update.twig', ['role' => $role, 'priviliges' => $priviliges]);
+			return $this->view->render($response, 'user_manager/group/update.twig', ['group' => $group]);
 		}
 
 		$status = 404;

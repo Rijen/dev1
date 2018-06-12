@@ -1,0 +1,160 @@
+{%extends "main.twig"%}
+{% set title = lang.user.create %}
+{% block wrapper %}
+
+	<div class="row">
+		<div class="col-lg-12 p-md">
+			<a href="{{ path_for('user_manager.user')}}" class="backLink">
+				<i class="fa fa-arrow-left"></i> {{lang.btn.back}}</a>
+		</div>
+	</div>
+
+	{#route.name - форма ведет на эту же страницу, но методом post#}
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>{{lang.user.pdata}}</h5>
+				</div>
+				<div class="ibox-content">
+					<form method="post" action="{{ path_for(route.name)}}" class="form-horizontal"
+						  enctype="multipart/form-data"
+						  >
+
+						<div class="form-group {{errors.name?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.name}}</label>
+							<div class="col-sm-9">
+								<input name="name" id="inputLogin" class="form-control" value="{{old.name}}" placeholder="{{lang.user.name}}"  autofocus>
+								{% if errors.name %}
+									<span class="help-block">{{errors.name|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+
+						<div class="form-group {{errors.family?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.family}}</label>
+							<div class="col-sm-9">
+								<input name="family" id="inputLogin" class="form-control" value="{{old.family}}" placeholder="{{lang.user.family}}"  autofocus>
+								{% if errors.family %}
+									<span class="help-block">{{errors.family|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group {{errors.surname?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.surname}}</label>
+							<div class="col-sm-9">
+								<input name="surname" id="inputLogin" class="form-control" value="{{old.surname}}" placeholder="{{lang.user.surname}}"  autofocus>
+								{% if errors.surname %}
+									<span class="help-block">{{errors.surname|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group {{errors.short?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.short}}</label>
+							<div class="col-sm-9">
+								<input name="short" id="inputLogin" class="form-control" value="{{old.short}}" placeholder="{{lang.user.short}}"  autofocus>
+								{% if errors.short %}
+									<span class="help-block">{{errors.short|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{{lang.user.photo}}</label>
+							<div class="col-sm-9">
+								<label class="btn btn-default">
+									{{lang.btn.select_file}}
+									<input type="file" class="filestyle" name="photo" id="photo" data-icon="false" hidden="">
+								</label>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group {{errors.filial_id?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.filial}}</label>
+							<div class="col-sm-9">
+								<select name="filial_id" class="form-control">
+									{% for filial in filials %}
+										<option value="{{filial.id}}" {% if old.filial_id == filial.id %}selected{%endif%}> {{filial.name}}</option>
+									{% endfor %}
+								</select>
+								{% if errors.filial_id %}
+									<span class="help-block">{{errors.filial_id|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group {{errors.work_phone?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.work_phone}}</label>
+							<div class="col-sm-9">
+								<input name="work_phone" id="inputLogin" class="form-control" value="{{old.work_phone}}" placeholder="{{lang.user.work_phone}}"  autofocus>
+								{% if errors.work_phone %}
+									<span class="help-block">{{errors.work_phone|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+						<div class="form-group {{errors.home_phone?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.home_phone}}</label>
+							<div class="col-sm-9">
+								<input name="home_phone" id="inputLogin" class="form-control" value="{{old.home_phone}}" placeholder="{{lang.user.home_phone}}"  autofocus>
+								{% if errors.home_phone %}
+									<span class="help-block">{{errors.home_phone|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group {{errors.email?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.email}}</label>
+							<div class="col-sm-9">
+								<input name="email" id="inputLogin" class="form-control" value="{{old.email}}" placeholder="{{lang.user.email}}"  autofocus>
+								{% if errors.email %}
+									<span class="help-block">{{errors.email|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group {{errors.login?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.login}}</label>
+							<div class="col-sm-9">
+								<input name="login" id="inputLogin" class="form-control" value="{{old.login}}" placeholder="{{lang.user.login}}"  autofocus>
+								{% if errors.login %}
+									<span class="help-block">{{errors.login|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="form-group {{errors.password?'has-error':''}}">
+							<label class="col-sm-3 control-label">{{lang.user.password}}</label>
+							<div class="col-sm-9">
+								<input name="password" id="inputLogin" class="form-control" value="{{old.password}}" placeholder="{{lang.user.password}}"  autofocus>
+								{% if errors.password %}
+									<span class="help-block">{{errors.password|first}}</span>
+								{% endif %}
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<div class="col-sm-3"></div>
+							<div class="col-sm-9">
+								<div class="alert alert-success" role="alert" style="display:none;"><h4 class="alert-heading"><span class="alert-text"></span></h4></div>
+								<div class="alert alert-danger" role="alert" style="display:none;"><h4 class="alert-heading"><span class="alert-text"></span></h4></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-9 col-sm-offset-3">
+								<a class="btn btn-white" href="{{path_for('user_manager.user')}}">{{lang.btn.close}}</a>
+								<button class="btn btn-primary" type="submit">{{lang.btn.create}}</button>
+							</div>
+						</div>
+						{{csrf.field|raw}}
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

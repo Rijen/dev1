@@ -20,7 +20,7 @@
 		<tbody>
 
 			{%for user in users%}
-				<tr>
+				<tr data-id="{{user.id}}">
 					<td>{{user.name}}</td>
 					<td>{{user.family}}</td>
 					<td>{{user.surname}}</td>
@@ -38,4 +38,35 @@
 		</tbody>
 	</table>  
 
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		$('.cmdDeleteUser').click(function () {
+			if (confirm('{{lang.user.del_confirm}}')) {
+				var id = $(this).data('id');
+				$.ajax({
+					url: '{{path_for('user_manager.user.delete')}}',
+					cache: false,
+					type: "GET",
+					data: {
+						id: id,
+					},
+					dataType: 'json',
+					success: function (d) {
+						if (!d.err) {
+							$('tr[data-id=' + id + ']').remove();
+							toastr['success'](d.msg)
+						} else {
+							toastr['warning'](d.msg)
+						}
+					},
+					error: function () {
+						alert("Error");
+					}
+				});
+			}
+		});
+	</script>
 {% endblock %}

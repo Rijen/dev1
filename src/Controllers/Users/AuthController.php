@@ -10,7 +10,7 @@ class AuthController extends Controller
 
 	public function getLogin($request, $response, $args)
 	{
-		$this->view->render($response, 'admin/login.twig');
+		$this->view->render($response, 'login.twig');
 	}
 
 	public function postLogin($request, $response)

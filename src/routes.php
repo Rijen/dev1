@@ -12,12 +12,12 @@ function crud($base, $controller, $name, &$app)
 		$app->get('', $controller . ':index')->setName($name);
 		$app->get('/create', $controller . ':getCreate')->setName($name . '.create');
 		$app->get('/{id}/update', $controller . ':getUpdate')->setName($name . '.update');
-		$app->get('/{id}/delete', $controller . ':getDelete');
 	})->add(new RouteNameMiddleware($app->getContainer()));
 
-	$app->group($base, function() use($app, $controller)
+	$app->group($base, function() use($app, $controller, $name)
 	{
 		$app->post('/create', $controller . ':postCreate');
+		$app->get('/delete', $controller . ':postDelete')->setName($name . '.delete');
 		$app->post('/{id}/update', $controller . ':postUpdate');
 	});
 }
@@ -45,7 +45,6 @@ $app->group('/', function () use ($app, $container)
 		$app->get('', 'UserManager\\UserController:index');
 		crud('/user', 'UserManager\\UserController', 'user_manager.user', $app);
 		crud('/group', 'UserManager\\GroupController', 'user_manager.group', $app);
-		
 	})->add(new AuthMiddleware($container));
 });
 
@@ -53,5 +52,5 @@ $app->group('/', function () use ($app, $container)
 $app->get('/test', function() use ($app)
 {
 	print '<pre>';
-	print_r(App\Models\Group::first()->users->count());
+	print_r(App\Models\User::find(1)->groups->contains(3));
 });
