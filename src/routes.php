@@ -1,43 +1,57 @@
 <?php
 
-use App\Middleware\AdminAuthMiddleware;
-use App\Middleware\AdminGuestMiddleware;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\GuestMiddleware;
 use App\Middleware\RouteNameMiddleware;
 
 // Routes
-function crud($base, $controller, $name, &$app) {
-  $app->group($base, function() use($app, $controller, $name) {
-	$app->get('', $controller . ':index')->setName($name);
-	$app->get('/create', $controller . ':getCreate')->setName($name . '.create');
-	$app->get('/{id}/update', $controller . ':getUpdate')->setName($name . '.update');
-	$app->get('/{id}/delete', $controller . ':getDelete');
-  })->add(new RouteNameMiddleware($app->getContainer()));
+function crud($base, $controller, $name, &$app)
+{
+	$app->group($base, function() use($app, $controller, $name)
+	{
+		$app->get('', $controller . ':index')->setName($name);
+		$app->get('/create', $controller . ':getCreate')->setName($name . '.create');
+		$app->get('/{id}/update', $controller . ':getUpdate')->setName($name . '.update');
+		$app->get('/{id}/delete', $controller . ':getDelete');
+	})->add(new RouteNameMiddleware($app->getContainer()));
 
-  $app->group($base, function() use($app, $controller) {
-	$app->post('/create', $controller . ':postCreate');
-	$app->post('/{id}/update', $controller . ':postUpdate');
-  });
+	$app->group($base, function() use($app, $controller)
+	{
+		$app->post('/create', $controller . ':postCreate');
+		$app->post('/{id}/update', $controller . ':postUpdate');
+	});
 }
 
-$app->group('/admin', function () use ($app, $container) {
-  $app->group('', function() use($app) {
-	$app->get('/login', 'Admin\\AuthController:getLogin')->setName('admin.login');
-	$app->post('/login', 'Admin\\AuthController:postLogin');
-  })->add(new AdminGuestMiddleware($container));
+$app->group('/', function () use ($app, $container)
+{
+	$app->group('', function() use($app)
+	{
+		$app->get('login', 'Users\\AuthController:getLogin')->setName('login');
+		$app->post('login', 'Users\\AuthController:postLogin');
+	})->add(new GuestMiddleware($container));
 
 
-  $app->group('', function() use($app) {
-	$app->get('', 'Admin\\MainController:index')->setName('admin.main');
-	$app->get('/logout', 'Admin\\AuthController:getLogout')->setName('admin.logout');
+	$app->group('', function() use($app)
+	{
+		$app->get('', 'MainController:index')->setName('main');
+		$app->get('logout', 'Users\\AuthController:getLogout')->setName('logout');
 
-	crud('/users', 'Admin\\UserController', 'admin.users', $app);
-	crud('/roles', 'Admin\\RoleController', 'admin.roles', $app);
+		crud('users', 'Users\\UserController', 'users', $app);
+		crud('roles', 'Users\\RoleController', 'roles', $app);
+	})->add(new AuthMiddleware($container));
 
-  })->add(new AdminAuthMiddleware($container));
+	$app->group('user_manager', function() use($app)
+	{
+		$app->get('', 'UserManager\\UserController:index');
+		crud('/user', 'UserManager\\UserController', 'user_manager.user', $app);
+		crud('/group', 'UserManager\\GroupController', 'user_manager.group', $app);
+		
+	})->add(new AuthMiddleware($container));
 });
 
 
-$app->get('/', function() use ($app) {
-  print '<pre>';
-  print_r(App\Models\User::find(1)->role->priviliges->contains(2));
+$app->get('/test', function() use ($app)
+{
+	print '<pre>';
+	print_r(App\Models\Group::first()->users->count());
 });

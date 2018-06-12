@@ -1,0 +1,29 @@
+{%extends "main.twig"%}
+{% set title=lang.group.create%}
+{% block wrapper %}
+	{#route.name - форма ведет на эту же страницу, но методом post#}
+	<form method="post" action="{{ path_for('user_manager.group.create')}}" class="form-horizontal">
+		<div class="form-group {{errors.name?'has-error':''}}">
+			<label for="inputName" class="control-label col-xs-2">{{lang.group.name}}</label>
+			<div class="col-xs-10">
+				<input name="name" id="inputLogin" class="form-control" value="{{old.name}}" placeholder="{{lang.group.name}}"  autofocus>
+				{% if errors.name %}
+					<span class="help-block">{{errors.name|first}}</span>
+				{% endif %}
+			</div>
+		</div>
+		<div class="form-group {{errors.descr?'has-error':''}}">
+			<label for="inputName" class="control-label col-xs-2">{{lang.group.descr}}</label>
+			<div class="col-xs-10">
+				<input name="descr" id="inputLogin" class="form-control" value="{{old.descr}}" placeholder="{{lang.group.descr}}"  autofocus>
+				{% if errors.descr %}
+					<span class="help-block">{{errors.descr|first}}</span>
+				{% endif %}
+			</div>
+		</div>
+		{{csrf.field|raw}}
+		<button class="btn btn-primary " type="submit">{{lang.btn.create}}</button>
+	</form>
+
+{% endblock %}
+

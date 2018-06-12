@@ -1,0 +1,33 @@
+{%extends "layout.twig"%}
+{% block head %}
+	{{ parent() }}
+	<link rel="stylesheet" href="/static/admin/css/main.css" />
+{% endblock %}
+
+{% block content %}
+	<div id="wrapper">
+
+		{% include 'partial/main_menu.twig' %}
+
+
+		<div id="page-wrapper" class="gray-bg">
+			{% include 'partial/top_menu.twig' %}
+
+
+			<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>{{title}}</h2>
+				</div>
+			</div>
+
+			<div class="wrapper wrapper-content animated fadeIn">
+			{% block wrapper %}{% endblock %}
+		</div>
+
+	</div>
+
+</div>
+
+</div>{#.row#}
+</div>{#.container#}
+{% endblock %}

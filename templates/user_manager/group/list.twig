@@ -1,0 +1,35 @@
+{%extends "user_manager/main.twig"%}
+{%set title = lang.group.list%}
+
+{% block wrapper %}
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>{{lang.group.name}}</th>
+				<th>{{lang.group.descr}}</th>
+				<th>{{lang.group.members}}</th>
+				<th class="table-controls">
+					<a href="{{path_for('user_manager.group.create')}}" c="" class="btn btn-success btn-xs" >{{lang.btn.create}}</a>  
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{%for group in groups%}
+				<tr>
+					<td>{{group.name}}</td>
+					<td>{{group.descr}}</td>
+					<td>{{group.users.count}}</td>
+					<td class="table-controls">
+						<a href="{{path_for('user_manager.group.update',{'id':group.id})}}" class="btn btn-primary btn-xs" >{{lang.btn.update}}</a>
+						<a href="javascript:void(0)" class="btn btn-danger btn-xs cmdDeleteUser" data-id="{{group.id}}">{{lang.btn.delete}}</a>
+					</td>
+
+				</tr>
+			{%endfor%}
+
+		</tbody>
+	</table>  
+
+{% endblock %}

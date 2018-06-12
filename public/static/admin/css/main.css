@@ -1,3 +1,142 @@
-body {
-  padding-top: 55px;
+.backLink {
+  color: #A7B1C2;
+  font-weight: 600 !important;
+}
+
+.backLink:hover{
+  color: #797c7d !important;
+}
+
+#users .table td,
+#groups .table td {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 90px;
+  text-overflow: ellipsis;
+}
+
+.multiselect {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.img-circle
+{
+  width:48px;
+  height:48px;
+}
+
+#loadDb .ibox-content {
+  border: none !important;
+}
+
+#disks, #tires, #price, #type {
+  display: none;
+}
+
+table .action {
+  display:none;
+}
+
+.table-bordered thead th {
+  background-color: #fbfbfb !important;
+}
+
+.photo-sm
+{
+  width:24px;
+  height:24px;
+  border-radius: 2px;
+}
+
+tr.border_bottom td, tr.border_bottom th {
+  border-bottom:1px solid #18a689 !important;
+}
+
+tr.border_top td, tr.border_top th {
+  border-top:1px solid #18a689 !important;
+}
+
+
+tr.border_left td:first-child, tr.border_left th:first-child {
+  border-left:1px solid #18a689 !important;
+}
+
+tr.border_right td:last-child, tr.border_right th:last-child {
+  border-right:1px solid #18a689 !important;
+}
+
+.notReaded {
+  background-color: #ff8787;
+  color: white;
+}
+
+.onAddMessage {
+  background-color: #ff6c7b;
+  color:white;
+}
+
+.readed {
+  background-color: none;
+}
+
+.photo-lg
+{
+  width:48px;
+  height:48px;
+  border-radius: 4px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.checkbox, .radio {  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width:300px;
+  text-overflow: ellipsis;
+}
+
+#unloaded table, #notUnloaded table {
+  font-size:12px;
+}
+
+.scrollable .table td {
+  max-width: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.scrollable {
+  overflow: scroll;
+    overflow-y: hidden;
+}
+
+.dropdown-menu
+{
+  left: 0;
+  right: 0%;
+}
+
+.jstree-anchor
+{
+  overflow: hidden;
+  white-space: nowrap;
+  max-width:400px;
+  text-overflow: ellipsis;
+}
+
+table .table-controls {
+  text-align: right;
+}
+
+#tree {
+  overflow: hidden !important;
 }

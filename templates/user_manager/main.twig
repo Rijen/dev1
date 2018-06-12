@@ -1,0 +1,51 @@
+{%extends "layout.twig"%}
+{% block head %}
+	{{ parent() }}
+	<link rel="stylesheet" href="/static/admin/css/main.css" />
+{% endblock %}
+
+{% block content %}
+	<div id="wrapper">
+
+		{% include 'partial/main_menu.twig' %}
+
+
+		<div id="page-wrapper" class="gray-bg">
+			{% include 'partial/top_menu.twig' %}
+
+
+			<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>{{title}}</h2>
+				</div>
+			</div>
+
+			<div class="wrapper wrapper-content animated fadeIn">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="tabs-container">
+							<ul class="nav nav-tabs">
+								<li {{route.name=='user_manager.user'?'class="active"':''}}><a href="{{path_for('user_manager.user')}}">{{lang.user_manager.users}}</a></li>
+								<li {{route.name=='user_manager.group'?'class="active"':''}}><a href="{{path_for('user_manager.group')}}">{{lang.user_manager.groups}}</a></li>           
+								<li><a data-target="#components" data-toggle="tab" id="Components">{{lang.user_manager.components}}</a></li>        
+								<li><a data-target="#logs" data-toggle="tab" id="Logs">{{lang.user_manager.log}}</a></li>         </ul>
+
+							<div class="tab-content">
+								<div class="tab-pane active" id="users">
+									<div class="panel-body">
+									{% block wrapper %}{% endblock %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+</div>{#.row#}
+</div>{#.container#}
+{% endblock %}

@@ -2,7 +2,7 @@
 {% block title %}Изменение пользователя {{user.login}}{% endblock %}
 {% block wrapper %}
   {#route.name - форма ведет на эту же страницу, но методом post#}
-  <form method="post" action="/admin/users/{{user.id}}/update" class="form-horizontal">
+  <form method="post" action="/users/{{user.id}}/update" class="form-horizontal">
 	<div class="form-group {{errors.name?'has-error':''}}">
 	  <label for="inputName" class="control-label col-xs-2">Имя</label>
 	  <div class="col-xs-10">

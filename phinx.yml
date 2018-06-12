@@ -2,8 +2,8 @@
 migration_base_class: \App\Database\Migration
 seeder_base_class: \App\Database\Seed
 paths:
-    migrations: %%PHINX_CONFIG_DIR%%/db/migrations
-    seeds: %%PHINX_CONFIG_DIR%%/db/seeds
+    migrations: ./db/migrations
+    seeds: ./db/seeds
 
 environments:
     default_migration_table: phinxlog

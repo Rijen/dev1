@@ -1,16 +1,16 @@
 {%extends "admin/main.twig"%}
-{% block title %}Администрирование{% endblock %}
+{% set title = "Main"%}
 {% block wrapper %}
-  <div class="row">
-	<div class="col-xs-3">
-	  <div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">Пользователи</div>
-		<ul class="list-group">
-		  <li class="list-group-item"><a href="{{ path_for('admin.users') }}">Пользователи</a></li>
-		  <li class="list-group-item"><a href="{{ path_for('admin.roles') }}">Роли</a></li>
-		</ul>
-	  </div>
-	</div>
-  </div>
+	{#<div class="row">
+		<div class="col-xs-3">
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="panel-heading">Пользователи</div>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="{{ path_for('users') }}">Пользователи</a></li>
+					<li class="list-group-item"><a href="{{ path_for('roles') }}">Роли</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>#}
 {% endblock %}

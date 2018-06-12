@@ -16,8 +16,8 @@
 		  <td>{{role.name}}</td>
 		  <td style="width: 160px;">
 			<div class="btn-group" role="group" aria-label="...">
-			  <a class="btn btn-default btn-sm" href="/admin/roles/{{role.id}}/update">Изменить</a>
-			  <a class="btn btn-default btn-sm" href="/admin/roles/{{role.id}}/delete">Удалить</a>
+			  <a class="btn btn-default btn-sm" href="/roles/{{role.id}}/update">Изменить</a>
+			  <a class="btn btn-default btn-sm" href="/roles/{{role.id}}/delete">Удалить</a>
 			</div>
 		  </td>
 		</tr>
@@ -30,6 +30,6 @@
 
 {% block sidebar %}
   <ul class="nav nav-pills nav-stacked">
-	<li><a href="{{ path_for('admin.roles.create')}}">Создать</a></li>
+	<li><a href="{{ path_for('roles.create')}}">Создать</a></li>
   </ul>
 {% endblock %}

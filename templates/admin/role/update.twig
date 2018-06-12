@@ -2,7 +2,7 @@
 {% block title %}Изменение роли {{role.name}}{% endblock %}
 {% block wrapper %}
   {#route.name - форма ведет на эту же страницу, но методом post#}
-  <form method="post" action="/admin/roles/{{role.id}}/update" class="form-horizontal">
+  <form method="post" action="/roles/{{role.id}}/update" class="form-horizontal">
 	<table class="table table-condensed table-striped">
 	  {% for privilige in priviliges %}
 		<tr>
